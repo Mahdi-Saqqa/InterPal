@@ -1,19 +1,16 @@
 import React from 'react'
-import './Main.css'
 import UserCard from '../components/UserCard'
+import Navbar from '../components/Navbar'
+
 const Main = () => {
+
   return (
-    <div className='main row '>
+    <div className='main'>
+        <Navbar/>
         <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
+      
     </div>
   )
 }
 
-export default Main
+export default Main;
