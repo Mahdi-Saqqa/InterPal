@@ -1,9 +1,11 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@00&family=DM+Sans:opsz@9..40&family=Open+Sans:wght@500&family=Rubik:ital,wght@1,800&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Barlow Condensed', 'DM Sans', 'Open Sans', 'Rubik', sans-serif;
 }
+
 body {
-    background-color: #fcf5f0  !important;
-  }
+  background-color: #fcf5f0 !important;
+}

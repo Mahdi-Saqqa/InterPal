@@ -91,15 +91,15 @@
     width: 60% !important;
     margin-top:15px !important ;
     padding: 12px;
-    background-color: #ead9c2;
+    background-color: #51caf2;
     color: #fff;
-    border: none;
+    border: 1px solid bisque;
     border-radius: 8px !important;
     cursor: pointer;
     transition: background-color 0.3s;
   }
   
   button:hover {
-    background-color: #45a049;
+    background-color:  #c9c5be;
   }
   
