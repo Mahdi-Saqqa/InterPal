@@ -19,3 +19,8 @@ body {
 
 
 
+.flag-icon {
+  width: 20px; /* Adjust the width as needed */
+  height: auto;
+  margin-right: 5px; /* Adjust the margin as needed */
+}

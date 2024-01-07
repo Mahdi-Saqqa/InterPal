@@ -9,8 +9,7 @@ const Grides2 = () => {
           style={{
             background:
               "url('https://source.unsplash.com/random/700×700/?travel')",
-              backgroundSize: "cover",
-
+            backgroundSize: "cover",
           }}
         ></div>
         <div className="img-row">
@@ -19,8 +18,7 @@ const Grides2 = () => {
             style={{
               background:
                 "url('https://source.unsplash.com/random/900×450/?lecture')",
-                backgroundSize: "cover",
-
+              backgroundSize: "cover",
             }}
           ></div>
           <div className="column">
@@ -29,8 +27,7 @@ const Grides2 = () => {
               style={{
                 background:
                   "url('https://source.unsplash.com/random/600x600/?fruit')",
-                  backgroundSize: "cover",
-
+                backgroundSize: "cover",
               }}
             ></div>
             <div
@@ -45,68 +42,70 @@ const Grides2 = () => {
         </div>
       </div>
       <div className="column">
-              <div className="img-row"><div
-              className="img-1 shadows"
-              style={{
-                background:
-                  "url('https://source.unsplash.com/random/600x600/?phone')",
-                backgroundSize: "cover",
-              }}
-            ></div></div>
-              <div className="img-row">
-              <div
-              className="img-1 shadows"
-              style={{
-                background:
-                  "url('https://source.unsplash.com/random/600x600/?car')",
-                backgroundSize: "cover",
-              }}
-            ></div>
-            <div
-              className="img-1 shadows"
-              style={{
-                background:
-                  "url('https://source.unsplash.com/random/600x600/?porn')",
-                backgroundSize: "cover",
-              }}
-            ></div>
-              </div>
-              <div className="img-row">
-              <div
-              className="img-1 shadows"
-              style={{
-                background:
-                  "url('https://source.unsplash.com/random/600x600/?girl')",
-                backgroundSize: "cover",
-              }}
-            ></div>
-              </div>
-              <div className="img-row">
-              <div
-              className="img-1 shadows"
-              style={{
-                background:
-                  "url('https://source.unsplash.com/random/600x600/?life')",
-                backgroundSize: "cover",
-              }}
-            ></div>
-            <div
-              className="img-1 shadows"
-              style={{
-                background:
-                  "url('https://source.unsplash.com/random/600x600/?flags')",
-                backgroundSize: "cover",
-              }}
-            ></div>
-            <div
-              className="img-1 shadows"
-              style={{
-                background:
-                  "url('https://source.unsplash.com/random/600x600/?nature')",
-                backgroundSize: "cover",
-              }}
-            ></div>
-              </div>
+        <div className="img-row">
+          <div
+            className="img-1 shadows"
+            style={{
+              background:
+                "url('https://source.unsplash.com/random/600x600/?phone')",
+              backgroundSize: "cover",
+            }}
+          ></div>
+        </div>
+        <div className="img-row">
+          <div
+            className="img-1 shadows"
+            style={{
+              background:
+                "url('https://source.unsplash.com/random/600x600/?car')",
+              backgroundSize: "cover",
+            }}
+          ></div>
+          <div
+            className="img-1 shadows"
+            style={{
+              background:
+                "url('https://source.unsplash.com/random/600x600/?culture')",
+              backgroundSize: "cover",
+            }}
+          ></div>
+        </div>
+        <div className="img-row">
+          <div
+            className="img-1 shadows"
+            style={{
+              background:
+                "url('https://source.unsplash.com/random/600x600/?girl')",
+              backgroundSize: "cover",
+            }}
+          ></div>
+        </div>
+        <div className="img-row">
+          <div
+            className="img-1 shadows"
+            style={{
+              background:
+                "url('https://source.unsplash.com/random/600x600/?life')",
+              backgroundSize: "cover",
+            }}
+          ></div>
+          <div
+            className="img-1 shadows"
+            style={{
+              background:
+                "url('https://source.unsplash.com/random/600x600/?flags')",
+              backgroundSize: "cover",
+            }}
+          ></div>
+          <div
+            className="img-1 shadows"
+            style={{
+              background:
+                "url('https://source.unsplash.com/random/600x600/?nature')",
+              backgroundSize: "cover",
+            }}
+          ></div>
+        </div>
       </div>
     </div>
   );
