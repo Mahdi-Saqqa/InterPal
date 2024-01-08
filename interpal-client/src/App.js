@@ -1,8 +1,9 @@
 import React from 'react'
-import Main from './views/Main'
-import LoginPage from './components/LoginPage';
+import Main from './views/Main/Main'
+import LoginPage from './views/LoginPage/LoginPage';
 import { Routes, Route } from 'react-router-dom';
-import RegisterPage from './components/RegisterPage';
+import RegisterPage from './views/RegisterPage/RegisterPage';
+import WebApp from './views/WebApp/WebApp';
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
     <Route path="/" element={<Main/>} />
     <Route path="/LoginPage" element={<LoginPage/>} />
     <Route path="/RegisterPage" element={<RegisterPage/>} />
+    <Route path="/app" element={<WebApp/>} />
 
 
 

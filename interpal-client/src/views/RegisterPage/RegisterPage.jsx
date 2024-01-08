@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Register.css"; // Make sure to create a corresponding CSS file
-import Navbar from "./Navbar";
+import Navbar from "../../components/Navbar";
 import axios from "axios";
 
 const RegisterPage = () => {

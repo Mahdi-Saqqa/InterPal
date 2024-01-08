@@ -1,21 +1,114 @@
-import React from 'react'
-import './Grides.css'
-
+import React from "react";
+import "./Grides.css";
 const Grides = () => {
   return (
-    <div className='gride-container'>
-        <div className="column-1">
-                <img src="https://ik.imagekit.io/shadid/young-bearded-man-with-striped-shirt.jpg?updatedAt=1701010405693" alt="" className="img-1 shadows" />
-            <div className="box-2">
-                <img src="https://ik.imagekit.io/shadid/tow-1.png?updatedAt=1690900213426" alt="" className="img-2 shadows" />
-                <div>
-                <img src="https://ik.imagekit.io/shadid/tow-1.png?updatedAt=1690900213426" alt="" className="img-3 shadows" />
-                <img src="https://ik.imagekit.io/shadid/tow-1.png?updatedAt=1690900213426" alt="" className="img-3 shadows" />
-                </div>
-            </div>
+    <div className="gride-container">
+      <div className="column">
+        <div
+          className="img-1 shadows"
+          style={{
+            background:
+              "url('https://source.unsplash.com/random/700×700/?travel')",
+            backgroundSize: "cover",
+          }}
+        ></div>
+        <div className="img-row">
+          <div
+            className="img-1 shadows"
+            style={{
+              background:
+                "url('https://source.unsplash.com/random/900×450/?lecture')",
+              backgroundSize: "cover",
+            }}
+          ></div>
+          <div className="column">
+            <div
+              className="img-1 shadows"
+              style={{
+                background:
+                  "url('https://source.unsplash.com/random/600x600/?fruit')",
+                backgroundSize: "cover",
+              }}
+            ></div>
+            <div
+              className="img-1 shadows"
+              style={{
+                background:
+                  "url('https://source.unsplash.com/random/600x600/?map')",
+                backgroundSize: "cover",
+              }}
+            ></div>
+          </div>
         </div>
+      </div>
+      <div className="column">
+        <div className="img-row">
+          <div
+            className="img-1 shadows"
+            style={{
+              background:
+                "url('https://source.unsplash.com/random/600x600/?phone')",
+              backgroundSize: "cover",
+            }}
+          ></div>
+        </div>
+        <div className="img-row">
+          <div
+            className="img-1 shadows"
+            style={{
+              background:
+                "url('https://source.unsplash.com/random/600x600/?car')",
+              backgroundSize: "cover",
+            }}
+          ></div>
+          <div
+            className="img-1 shadows"
+            style={{
+              background:
+                "url('https://source.unsplash.com/random/600x600/?culture')",
+              backgroundSize: "cover",
+            }}
+          ></div>
+        </div>
+        <div className="img-row">
+          <div
+            className="img-1 shadows"
+            style={{
+              background:
+                "url('https://source.unsplash.com/random/600x600/?girl')",
+              backgroundSize: "cover",
+            }}
+          ></div>
+        </div>
+        <div className="img-row">
+          <div
+            className="img-1 shadows"
+            style={{
+              background:
+                "url('https://source.unsplash.com/random/600x600/?life')",
+              backgroundSize: "cover",
+            }}
+          ></div>
+          <div
+            className="img-1 shadows"
+            style={{
+              background:
+                "url('https://source.unsplash.com/random/600x600/?flags')",
+              backgroundSize: "cover",
+            }}
+          ></div>
+          <div
+            className="img-1 shadows"
+            style={{
+              background:
+                "url('https://source.unsplash.com/random/600x600/?nature')",
+              backgroundSize: "cover",
+            }}
+          ></div>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Grides
+export default Grides;

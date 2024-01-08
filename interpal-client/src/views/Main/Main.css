@@ -1,0 +1,28 @@
+.containerStyle{
+    height: 400px;
+    background-image: url("https://ik.imagekit.io/shadid/15841841_v935-aum-16.jpg?updatedAt=1700931734217");
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #110c0cb9;
+    position: relative;
+
+}
+
+.textStyle{
+    font-size: 50px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.bottomTextStyle{
+    width: 100%;
+    text-align: center;
+    color: #555;
+}
+
+
+

@@ -1,6 +1,6 @@
 import React from 'react';
 import './LoginPage.css'; // Make sure to import your CSS file
-import Navbar from './Navbar';
+import Navbar from '../../components/Navbar';
 
 const LoginPage = () => {
 
