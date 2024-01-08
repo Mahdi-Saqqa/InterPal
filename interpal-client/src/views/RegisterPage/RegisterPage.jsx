@@ -4,10 +4,37 @@ import Navbar from "../../components/Navbar";
 import axios from "axios";
 
 const RegisterPage = () => {
-  const [country, setCountry] = useState([]);
+  const [countries, setCountries] = useState([]);
+  const [firstName,setFirstName] = useState('');
+  const [lastName,setLastName] = useState('');
+  const [email,setEmail] = useState('');
+  const [password,setPassword] = useState('');
+  const [confirmPassword,setConfirmPassword] = useState('');
+  const [country,setCountry] = useState('');
+  const [birthday,setBirthday] = useState('');
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Add your registration logic here
+    axios.post("http://localhost:8000/api/register", {
+      Fname:firstName,
+      Lname:lastName,
+      Email:email,
+      Password:password,
+      Cpassword:confirmPassword,
+      country:country,
+      Bday:birthday
+    }
+    )
+    .then((res) => {
+      console.log(res.data);
+      console.log("User registered!");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  
     console.log("User registered!");
   };
   useEffect(() => {
@@ -16,7 +43,7 @@ const RegisterPage = () => {
       .then((res) => {
         let c=res.data;
         c.sort((a,b)=>a.name.localeCompare(b.name))
-        setCountry(c);
+        setCountries(c);
       })
       .catch((err) => {
         console.log(err);
@@ -34,6 +61,9 @@ const RegisterPage = () => {
             <label className="col-3">First Name:</label>
             <div className="col-9">
               <input
+              value={firstName}
+              onChange={(e)=>setFirstName(e.target.value)}
+
                 type="text"
                 name="name"
                 placeholder="Enter your name"
@@ -45,6 +75,9 @@ const RegisterPage = () => {
           <div className="form-group">
             <label className="col-3">Last Name:</label>
             <input
+            value={lastName}
+            onChange={(e)=>setLastName(e.target.value)}
+
               className="col-9"
               type="text"
               name="name"
@@ -56,6 +89,9 @@ const RegisterPage = () => {
           <div className="form-group">
             <label className="col-3">Email:</label>
             <input
+            value={email}
+            onChange={(e)=>setEmail(e.target.value)}
+
               className="col-9"
               type="email"
               name="email"
@@ -63,10 +99,25 @@ const RegisterPage = () => {
               required
             />
           </div>
+          <div className="form-group">
+            <label className="col-3">Birthday:</label>
+            <input
+            value={birthday}
+            onChange={(e)=>setBirthday(e.target.value)}
 
+              className="col-9"
+              type="date"
+              name="btday"
+              placeholder="Enter your bday"
+              required
+            />
+          </div>
           <div className="form-group">
             <label className="col-3">Password:</label>
             <input
+            value={password}
+            onChange={(e)=>setPassword(e.target.value)}
+
               className="col-9"
               type="password"
               name="password"
@@ -77,6 +128,9 @@ const RegisterPage = () => {
           <div className="form-group">
             <label className="col-3"> Confirm Password:</label>
             <input
+            value={confirmPassword}
+            onChange={(e)=>setConfirmPassword(e.target.value)}
+
               className="col-9"
               type="password"
               name="password"
@@ -86,9 +140,11 @@ const RegisterPage = () => {
           </div>
           <div className="form-group">
             <label className="col-3">Country</label>
-            <select className="col-9" name="country" required>
+            <select className="col-9"
+            onChange={(e)=>setCountry(e.target.value)}
+            name="country" >
               <option value="">Select Country</option>
-              {country.map((country) => (
+              {countries.map((country) => (
                 <option key={country._id} value={country._id}>
                   <img
                         src={country.flag}
