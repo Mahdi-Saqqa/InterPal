@@ -6,8 +6,9 @@ module.exports =app => {
     app.get("/api/country", Country.getAll);
     app.post("/api/register", Users.register)
     app.post("/api/login", Users.login)
-    app.get("/api/users/loggedin",authenticate, Users.getLoggedInUser)
-    app.get("/api/users/logout", Users.logout)
+    app.post("/api/users/loggedin",authenticate, Users.getLoggedInUser)
+    app.post("/api/users/activate",authenticate, Users.activateUser)
+    app.post("/api/users/resend",authenticate, Users.sendActivationEmail)
 
 
 

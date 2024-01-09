@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
 
 
 const UserSchema = new mongoose.Schema({
@@ -15,6 +15,8 @@ const UserSchema = new mongoose.Schema({
       Email: {
       type: String,
       required: [true, "Email is required"],
+      unique: [true, "Email already exists"],
+      index: true,
       validate: {
         validator: val => /^([\w-\.]+@([\w-]+\.)+[\w-]+)?$/.test(val),
         message: "Please enter a valid email"
@@ -39,28 +41,41 @@ const UserSchema = new mongoose.Schema({
         default: "user"
     },
     country: {
-        type: mongoose.Schema.Types.ObjectId, ref: "Country"
+        type: mongoose.Schema.Types.ObjectId, ref: "Country",
+        required: [true, "Country is required"],
+        ref:'Country'
     },
+    languages: [{
+        type: mongoose.Schema.Types.ObjectId, ref: "Language",
+        ref:'Language'
+    }],
+    activationToken: Number,
+
+    activated: {
+        type: Boolean,
+        default: false
+    },
+    completed: {
+        type: Boolean,
+        default: false
+    },
+    bio: {
+        type: String,
+        default: ""
+    },
+    profilePic: {
+        type: String,
+        default: ""
+    },
+
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
+
 
 
   }, {timestamps: true});
 
 
-UserSchema.virtual("Cpassword")
-  .get(function(){
-      return this._Cpassword;
-  })
-  .set(function(value){
-      this._Cpassword = value
-  })
-
-UserSchema.pre("validate", function(next){
-    if(this.Password !== this.Cpassword){
-        this.invalidate("Cpassword", "Passwords must match")
-    }
-    //save the user to db or show validation errors
-    next();
-})
 
 
 UserSchema.pre("save", function(next){

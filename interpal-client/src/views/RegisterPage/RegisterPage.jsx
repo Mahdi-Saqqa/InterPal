@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./Register.css"; // Make sure to create a corresponding CSS file
 import Navbar from "../../components/Navbar";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
+import emailjs from 'emailjs-com';
 const RegisterPage = () => {
   const [countries, setCountries] = useState([]);
   const [firstName,setFirstName] = useState('');
@@ -13,7 +14,7 @@ const RegisterPage = () => {
   const [country,setCountry] = useState('');
   const [birthday,setBirthday] = useState('');
 
-
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     // Add your registration logic here
@@ -28,8 +29,22 @@ const RegisterPage = () => {
     }
     )
     .then((res) => {
-      console.log(res.data);
-      console.log("User registered!");
+      let user = res.data.user;
+      console.log(res.data.user);
+      console.log("sending email");
+      return emailjs.send('service_4oj1jfh', 'template_fdccufu', {
+          user_code: user.activationToken,
+          user_name: user.Fname + " " + user.Lname,
+          toEmail: user.Email,
+      }, 'pHlf1MseO9mIByVr6');
+  })
+  .then((result) => {
+      console.log('email sent');
+      console.log(result.text);
+  })
+    .then((res) => {
+      
+      navigate("/emailverify");
     })
     .catch((err) => {
       console.log(err);
@@ -146,11 +161,6 @@ const RegisterPage = () => {
               <option value="">Select Country</option>
               {countries.map((country) => (
                 <option key={country._id} value={country._id}>
-                  <img
-                        src={country.flag}
-                        alt={`${country.name} flag`}
-                        style={{ width: '20px', marginLeft: '5px' }}
-                      />
                   {country.name}
                 </option>
               ))}

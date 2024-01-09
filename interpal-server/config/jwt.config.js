@@ -6,16 +6,20 @@ const secret = process.env.jwtSecret;
 module.exports.secret = secret;
 
 module.exports.authenticate = (req, res, next) => {
-    jwt.verify(req.cookies.usertoken, secret, (err, payload) => {
+    console.log(req.body);
+    jwt.verify(req.body.token, secret, (err, payload) => {
       if (err) { 
+        console.log('error');
         res.status(401).json({verified: false});
       } else {
+        console.log('next');
         next();
       }
     });
   }
   module.exports.authenticateAdmin = (req, res, next) => {
-    jwt.verify(req.cookies.usertoken, secret, (err, payload) => {
+    jwt.verify(req.body.token, secret, (err, payload) => {
+      console.log(req.body.token);
       if (err) { 
         res.status(401).json({verified: false});
       } else {
@@ -28,8 +32,8 @@ module.exports.authenticate = (req, res, next) => {
     });
   }
   module.exports.authenticateOwner = (req, res, next) => {
-    jwt.verify(req.cookies.usertoken, secret, (err, payload) => {
-      console.log(req);
+    jwt.verify(req.body.token, secret, (err, payload) => {
+      console.log(req.body.token);
       if (err) {
         res.status(401).json({ verified: false });
       } else {
