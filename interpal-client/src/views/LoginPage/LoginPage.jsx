@@ -29,7 +29,7 @@ const LoginPage = () => {
         localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("id", response.data.id);
         console.log("redirecting");
-        navigate('/app');
+        window.location.href = '/app';
       }
     }).catch((err)=>{
       console.log(err.response.data);

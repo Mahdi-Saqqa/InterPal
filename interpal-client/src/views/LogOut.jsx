@@ -8,8 +8,8 @@ const LogOut = () => {
         localStorage.removeItem('id');
         localStorage.removeItem('user');
         console.log("redirecting");
-        navigate('/');
-    }, [])
+        window.location.href = '/';
+      }, [])
 
   return (
     <div>

@@ -30,21 +30,27 @@ const RegisterPage = () => {
     )
     .then((res) => {
       let user = res.data.user;
-      console.log(res.data.user);
-      console.log("sending email");
-      return emailjs.send('service_4oj1jfh', 'template_fdccufu', {
-          user_code: user.activationToken,
-          user_name: user.Fname + " " + user.Lname,
-          toEmail: user.Email,
-      }, 'pHlf1MseO9mIByVr6');
+      console.log(res.data);
+      //   localStorage.setItem('token', res.data.token);    
+      //   localStorage.setItem("user", JSON.stringify(res.data.user));
+      //   localStorage.setItem("id", res.data.id);
+      // console.log(res.data);
+      // console.log("sending email");
+      // return emailjs.send('service_4oj1jfh', 'template_fdccufu', {
+      //     user_code: user.activationToken,
+      //     user_name: user.Fname + " " + user.Lname,
+      //     toEmail: user.Email,
+      // }, 'pHlf1MseO9mIByVr6');
+
   })
   .then((result) => {
       console.log('email sent');
       console.log(result.text);
+      
   })
     .then((res) => {
-      
-      navigate("/emailverify");
+      console.log("redirecting");
+      navigate("/activate");
     })
     .catch((err) => {
       console.log(err);

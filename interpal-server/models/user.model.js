@@ -64,8 +64,9 @@ const UserSchema = new mongoose.Schema({
         default: ""
     },
     profilePic: {
-        type: String,
-        default: ""
+        type:Object,
+        default: {}
+        
     },
 
     resetPasswordToken: String,
@@ -74,22 +75,6 @@ const UserSchema = new mongoose.Schema({
 
 
   }, {timestamps: true});
-
-
-
-
-UserSchema.pre("save", function(next){
-    bcrypt.hash(this.Password, 10)
-        .then(hash=>{
-            this.Password = hash
-            next()
-        })
-        .catch(err=>{
-            console.log("HASHING PASSWORD DIDNT WORK THO", err)
-            next()
-        })
-})
-
 
 module.exports = mongoose.model("User", UserSchema);
 

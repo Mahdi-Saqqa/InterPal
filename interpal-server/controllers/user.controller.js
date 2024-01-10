@@ -23,6 +23,7 @@ class UserController {
                 } else {
                     const user = new User({
                         ...req.body,
+                        Password: bcrypt.hashSync(req.body.Password, 10),
                         Email: req.body.Email.toLowerCase(),
                         activationToken: generateRandomNumber()
                     });
@@ -48,7 +49,14 @@ class UserController {
                         })
                         .then(() => {
                             console.log("country saved");
-                            res.json({ msg: "Success!", user: user }).status(201);
+                            res.json({ msg: "Success!", 
+                            id: user._id,
+                            firstName: user.Fname,
+                            lastName: user.Lname,
+                            Email: user.Email,
+                            token: generateToken({id: user._id})
+
+                        }).status(201);
                         })
 
                         .catch(err => {
@@ -65,6 +73,7 @@ class UserController {
     
 
     login(req, res){
+        console.log(req.body);
         User.findOne({Email: req.body.Email})
             .then(user=>{                
                 if(user === null){
@@ -73,15 +82,19 @@ class UserController {
                     bcrypt.compare(req.body.Password, user.Password)
                         .then(passwordIsValid=>{
                             if(passwordIsValid){
+                                console.log("password is valid");
                                 res.status(200).json({
                                     msg: "success!",
                                     id: user._id,
                                     firstName: user.Fname,
                                     lastName: user.Lname,
                                     Email: user.Email,
-                                    token: generateToken({id: user._id})
+                                    token: generateToken({id: user._id}),
+                                    activationToken: user.activationToken,
+
                                 });
                             }else{
+                                console.log("password is invalid");
                                 res.status(401).json({msg: "invalid login attempt- password incorrect"})
                             }
                         })
@@ -95,6 +108,7 @@ class UserController {
 
     getLoggedInUser(req,res){
         let id = jwt.decode(req.body.token).id;
+        console.log(id);
         User.findById(id).populate("country").select("-Password")
             .then(user=> {
                 res.json({user})
@@ -113,7 +127,10 @@ class UserController {
                 if (user.activationToken == code) {
                     user.activationToken = null;
                     user.activated = true;
-                    user.save()
+                    user.updateOne({
+                        activationToken: null,
+                        activated: true
+                    })
                         .then(() => res.json({ msg: "Success!" }))
                         .catch(err => res.status(400).json(err));
                 } else {
@@ -150,6 +167,27 @@ class UserController {
                         });
             })
             .catch(err => res.status(400).json(err));
+    }
+    completeUser(req, res) {
+        console.log(req.body);
+        console.log(req.file);
+        User.findOne({ _id: req.body.userId })
+            .then(user => {
+                user.updateOne({
+                    profilePic: {
+                        name: req.file.filename,
+                        details: req.file
+                    },
+                    bio: req.body.bio,
+                    completed : true,
+                    
+
+                })
+                    .then(() => res.json({ msg: "Success!" }))
+                    .catch(err => res.status(401).json(err));
+            })
+            .catch(err => res.status(400).json(err));
+
     }
 }
 module.exports = new UserController();

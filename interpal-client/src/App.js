@@ -7,6 +7,7 @@ import WebApp from './views/WebApp/WebApp';
 import EmailVerify from './views/EmailVerify';
 import LogOut from './views/LogOut';
 import axios from 'axios';
+import CompleteProfile from './views/CompleteProfile/CompleteProfile';
 
 const App = () => {
   const [user, setUser] = React.useState(null);
@@ -41,11 +42,19 @@ const App = () => {
 
   return (
     <div>
+      {
+        loaded === false ?
+        <h1>Loading...</h1>
+        :      <img src={require(`./uploads/${user.profilePic.details.filename}`)} alt="logo" style={{width: "100px", height: "100px"}}/>
+
+      }
     <Routes>
+
     <Route path="/" element={<Main/>} />
     <Route path="/login" element={<LoginPage/>} />
     <Route path="/RegisterPage" element={<RegisterPage/>} />
     <Route path="/activate" element={<EmailVerify/>} />
+    <Route path="/completeprofile" element={<CompleteProfile/>} />
     <Route path="/logout" element={<LogOut/>} />
     {
       activated === true ?
