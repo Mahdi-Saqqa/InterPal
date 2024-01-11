@@ -7,10 +7,8 @@ import { useEffect } from 'react';
 const LoginPage = () => {
   const navigate = useNavigate();
   const [error, setError] = React.useState(null); // error state for handling errors
-  console.log(localStorage.getItem('token'));
   useEffect(() => {
     if(localStorage.getItem('token')){
-      console.log('here');
       navigate('/app');
     }
   }, [])
@@ -22,9 +20,7 @@ const LoginPage = () => {
       Email: email,
       Password: password
     }).then((response)=>{
-      console.log(response);
       if(response.status === 200){
-        console.log(response.data);
         localStorage.setItem('token', response.data.token);    
         localStorage.setItem("user", JSON.stringify(response.data.user));
         localStorage.setItem("id", response.data.id);

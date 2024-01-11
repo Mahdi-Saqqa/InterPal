@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./Register.css"; // Make sure to create a corresponding CSS file
-import Navbar from "../../components/Navbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import emailjs from 'emailjs-com';
@@ -30,17 +29,14 @@ const RegisterPage = () => {
     )
     .then((res) => {
       let user = res.data.user;
-      console.log(res.data);
-      //   localStorage.setItem('token', res.data.token);    
-      //   localStorage.setItem("user", JSON.stringify(res.data.user));
-      //   localStorage.setItem("id", res.data.id);
-      // console.log(res.data);
-      // console.log("sending email");
-      // return emailjs.send('service_4oj1jfh', 'template_fdccufu', {
-      //     user_code: user.activationToken,
-      //     user_name: user.Fname + " " + user.Lname,
-      //     toEmail: user.Email,
-      // }, 'pHlf1MseO9mIByVr6');
+        localStorage.setItem('token', res.data.token);    
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        localStorage.setItem("id", res.data.id);
+      return emailjs.send('service_4oj1jfh', 'template_fdccufu', {
+          user_code: user.activationToken,
+          user_name: user.Fname + " " + user.Lname,
+          toEmail: user.Email,
+      }, 'pHlf1MseO9mIByVr6');
 
   })
   .then((result) => {
@@ -72,8 +68,7 @@ const RegisterPage = () => {
   }, []);
 
   return (
-    <>
-      <Navbar />
+
       <div className="register-container">
         <form className="register-form" onSubmit={handleSubmit}>
           <h2>Register</h2>
@@ -179,7 +174,6 @@ const RegisterPage = () => {
           </div>
         </form>
       </div>
-    </>
   );
 };
 

@@ -3,7 +3,7 @@ import "./Grides.css";
 const Grides = () => {
   return (
     <div className="gride-container">
-      <div className="column">
+      <div className="column-1">
         <div
           className="img-1 shadows"
           style={{
@@ -41,7 +41,7 @@ const Grides = () => {
           </div>
         </div>
       </div>
-      <div className="column">
+      <div className="column-1">
         <div className="img-row">
           <div
             className="img-1 shadows"

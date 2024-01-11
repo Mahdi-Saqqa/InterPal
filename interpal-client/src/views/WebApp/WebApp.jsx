@@ -1,50 +1,19 @@
 import React from "react";
-import UserCard from "../../components/UserCard/UserCard";
 import "./WebApp.css";
-import Navbar from "../../components/Navbar";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import Sidebar from "../../components/SideBar/Sidebar";
+import { Outlet } from "react-router-dom"
 
-const WebApp = () => {
-  const [loaded, setLoaded] = React.useState(false);
-  const navigate = useNavigate();
 
-  
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-              
-      setLoaded(true);
-    } else {
-      navigate("/login");
-    }
-  }, []);
+const WebApp = (props) => {
+
+
 
   return (
-    <div>
-      <Navbar />
-      {loaded ? (
-              <div className="userList">
-              <UserCard />
-              <UserCard />
-              <UserCard />
-              <UserCard />
-              <UserCard />
-              <UserCard />
-              <UserCard />
-              <UserCard />
-              <UserCard />
-              <UserCard />
-              <UserCard />
-              <UserCard />
-              <UserCard />
-              <UserCard />
-              <UserCard />
-              <UserCard />
-              <UserCard />
-              <UserCard />
-            </div>)
-            : (<></>
-              )}
+    <div className='appContainer'>
+      <Sidebar user = {props.user}/>
+      <Outlet/>
+
+
     </div>
   );
 };
