@@ -1,10 +1,10 @@
 import React, { useEffect,useState } from "react";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link,useNavigate } from "react-router-dom"; // Import Link from react-router-dom
 import "./SideBar.css"; // Add your styles here
 
 const Sidebar = (props) => {
   const user = props.user;
-  console.log(user);
+  const navigate = useNavigate();
   const {darkMode, setDarkMode} = props // Default dark mode to false
   const [windowSize, setWindowSize] = useState([
     window.innerWidth,
@@ -163,7 +163,7 @@ const Sidebar = (props) => {
         </button>
 
         {/* Sidebar Profile */}
-        <div className="sidebar_profile flex">
+        <div className="sidebar_profile flex" onClick={()=>navigate('./profile')}>
           <span className="nav_image">
             <img
               src={require(`../../uploads/${user.profilePic.details.filename}`)}
