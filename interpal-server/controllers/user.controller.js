@@ -4,17 +4,20 @@ const jwt = require("jsonwebtoken");
 const {secret} = require("../config/jwt.config");
 const Country = require("../models/country.model");
 
+
+
+//function to generate random 6 digits number for activation code
 function generateRandomNumber() {
     var minm = 100000;
     var maxm = 999999;
     return Math.floor(Math
     .random() * (maxm - minm + 1)) + minm;
 }
-function generateToken(id) {
-    const userToken = jwt.sign(id, secret);
-    return userToken;
-}
+
+
+
 class UserController {
+
     register(req, res) {
         User.findOne({ Email: req.body.Email.toLowerCase() })
             .then(existingUser => {
@@ -30,41 +33,28 @@ class UserController {
     
                     user.save()
                         .then(() => {
-                            console.log("user created");
                             return Country.findOne({ _id: req.body.country });
                         })
-                        .then(country => {
-                            console.log("country found");
-                            console.log(country);
-    
+                        .then(country => { 
                             if (!country.residents) {
                                 country.residents = [];
                             }
-    
-                            console.log(country);
-                            country.residents.push(user._id);
-                            console.log(country);
-    
+                            country.residents.push(user._id);    
                             return country.updateOne({ residents: country.residents });
                         })
                         .then(() => {
-                            console.log("country saved");
                             res.json({ msg: "Success!", 
                             id: user._id,
                             firstName: user.Fname,
                             lastName: user.Lname,
                             Email: user.Email,
-                            token: generateToken({id: user._id})
-
+                            activationToken: user.activationToken,
+                            token: jwt.sign({id: user._id,role:user.role}, secret),
                         }).status(201);
                         })
-
                         .catch(err => {
                             console.error("Error sending email", err);
-                            res.status(400).json({
-                                msg: "Error saving user or sending email",
-                                err: err
-                            });
+                            res.status(400).json(err);
                         });
                 }
             })
@@ -85,16 +75,9 @@ class UserController {
                                 console.log("password is valid");
                                 res.status(200).json({
                                     msg: "success!",
-                                    id: user._id,
-                                    firstName: user.Fname,
-                                    lastName: user.Lname,
-                                    Email: user.Email,
-                                    token: generateToken({id: user._id}),
-                                    activationToken: user.activationToken,
-
+                                    token: jwt.sign({id: user._id,role:user.role}, secret),
                                 });
                             }else{
-                                console.log("password is invalid");
                                 res.status(401).json({msg: "invalid login attempt- password incorrect"})
                             }
                         })
@@ -108,7 +91,6 @@ class UserController {
 
     getLoggedInUser(req,res){
         let id = jwt.decode(req.body.token).id;
-        console.log(id);
         User.findById(id).populate("country").select("-Password")
             .then(user=> {
                 res.json({user})
@@ -119,14 +101,11 @@ class UserController {
 
     }
     activateUser(req, res) {
-        console.log(req.body);
         let code = req.body.code;
         let id = req.body.id;
         User.findOne({ _id: id })
             .then(user => {
                 if (user.activationToken == code) {
-                    user.activationToken = null;
-                    user.activated = true;
                     user.updateOne({
                         activationToken: null,
                         activated: true
@@ -146,11 +125,8 @@ class UserController {
         User.findOne({ _id: id })
             .then(user => {
                     user.activationToken = generateRandomNumber();
-                    console.log(user);
                     user.save()
                         .then(() => {
-                            console.log("user saved");
-                            console.log(user);
                             res.json({
                                 id: user._id,
                                 Email: user.Email,
@@ -161,8 +137,6 @@ class UserController {
                             });
                         }   )
                         .catch(err => {
-                            console.log(err);
-                            console.log("user not saved");
                             res.status(400).json(err)
                         });
             })
@@ -187,7 +161,13 @@ class UserController {
                     .catch(err => res.status(401).json(err));
             })
             .catch(err => res.status(400).json(err));
-
+    }
+    getAll(req, res) {
+        User.find().populate("country").select("-Password")
+            .then(users => {
+                res.json({ users });
+            })
+            .catch(err => res.status(400).json(err));
     }
 }
 module.exports = new UserController();

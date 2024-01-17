@@ -13,7 +13,7 @@ const CompleteProfile = () => {
         console.log(localStorage.getItem('id'))
         formData.append('bio', bio)
         formData.append('profilePicture', profilePicture)
-        formData.append('userId', localStorage.getItem('id'))
+        formData.append('userId',localStorage.getItem('id'))
         console.log(formData)
         axios.post( 'http://localhost:8000/api/users/completeprofile', formData)
         .then(res => {

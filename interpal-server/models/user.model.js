@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
 
 
 const UserSchema = new mongoose.Schema({
@@ -68,6 +67,10 @@ const UserSchema = new mongoose.Schema({
         default: {}
         
     },
+    chats: [{
+        type: mongoose.Schema.Types.ObjectId, ref: "Chat",
+        ref:'Chat'
+    }],
 
     resetPasswordToken: String,
     resetPasswordExpires: Date,

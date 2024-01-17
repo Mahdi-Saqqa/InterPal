@@ -5,12 +5,16 @@
   box-sizing: border-box;
   font-family: 'Barlow Condensed', 'DM Sans', 'Open Sans', 'Rubik', sans-serif;
 }
-.appContainer{
+
+/*loader styling*/
+.Loader{
+  height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+
 }
 
-
-
+a:hover{
+  text-decoration: none;
+}
