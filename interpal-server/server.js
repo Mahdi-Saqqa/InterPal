@@ -3,7 +3,9 @@ const app = express();
 const cors = require('cors');
 const SocketChat = require('./controllers/ChatSocket.controller')
 require('./config/mongoose.config');
-app.use(cors());
+app.use(cors({
+    origin: '*',
+}));
 const server = app.listen(8000, () => console.log("Listening on port 8000"));
 const io = require('socket.io')(server, { cors: true });
 
@@ -29,4 +31,3 @@ io.on('connection', socket => {
         }
     });
 });
-

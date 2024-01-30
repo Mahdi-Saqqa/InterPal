@@ -169,5 +169,13 @@ class UserController {
             })
             .catch(err => res.status(400).json(err));
     }
+    getUser(req, res) {
+        console.log(req.params.id);
+        User.findOne({ _id: req.params.id }).populate("country").select("-Password")
+            .then(user => {
+                res.json({ user });
+            })
+            .catch(err => res.status(400).json(err));
+    }
 }
 module.exports = new UserController();

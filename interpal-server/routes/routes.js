@@ -11,6 +11,8 @@ module.exports =app => {
     app.post("/api/users/activate",authenticate, Users.activateUser)
     app.post("/api/users/resend",authenticate, Users.sendActivationEmail)
     app.post('/api/users/completeprofile',multer.uploadFile.single('profilePicture'), Users.completeUser)
+    app.post('/api/users/getuser/:id',  Users.getUser)
+    // app.post('/api/users/editprofile',multer.uploadFile.single('profilePicture'), Users.editUser)
     app.get("/api/users", Users.getAll)
     app.post('/api/chat/new', Chat.newChat)
     app.post('/api/chat/userChat', Chat.getUserChat)

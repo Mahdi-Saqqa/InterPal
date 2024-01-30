@@ -163,7 +163,7 @@ const Sidebar = (props) => {
         </button>
 
         {/* Sidebar Profile */}
-        <div className="sidebar_profile flex" onClick={()=>navigate('./profile')}>
+        <div className="sidebar_profile flex" onClick={()=>navigate('./profile/'+user._id)}>
           <span className="nav_image">
             <img
               src={require(`../../uploads/${user.profilePic.details.filename}`)}

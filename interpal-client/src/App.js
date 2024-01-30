@@ -17,6 +17,7 @@ import Chat from "./views/Chat/Chat";
 import ChatContainer from "./views/Chat/ChatContainer";
 import './bootstrap.min.css';
 import Profile from "./views/Profile/Profile";
+import EditProfile from "./components/EditProfile";
 
 const App = () => {
 
@@ -80,18 +81,12 @@ const App = () => {
               <Route path="Chat" element={<Chat/>} >
                 <Route path=":id" element={<ChatContainer/>} />
               </Route>
-
               <Route
-                path="profile"
-                element={<Profile user={user} setUser={setUser} />
-                }
-              />
-                                          <Route
                 path="profile/edit"
-                element={<Profile user={user} setUser={setUser} />
+                element={<EditProfile />  
                 }
               />
-                            <Route
+              <Route
                 path="profile/:id"
                 element={<Profile user={user} setUser={setUser} />
                 }

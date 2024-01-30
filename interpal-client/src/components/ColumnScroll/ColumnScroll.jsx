@@ -5,10 +5,11 @@ import NewChat from "../../views/Chat/NewChat";
 import { faSpinner,faUser } from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
 
 const ColumnItem = (props) =>{
  const { imageUrl, title, info,alt,id, setReceiver,setNewChat } = props;
-
+  const navigate = useNavigate();
   return (
 <figure className="custom-column__item">
   <div className="custom-column__item-imgwrap">
@@ -30,7 +31,9 @@ const ColumnItem = (props) =>{
           })
           setNewChat(true)
         }}><i class='bx bxs-send'></i></button>
-        <button className="btn btn-secondary right-button"><FontAwesomeIcon icon={faUser} /></button>
+        <button className="btn btn-secondary right-button" onClick={
+          ()=>{navigate(`/app/profile/${id}`)}
+        }><FontAwesomeIcon icon={faUser} /></button>
       </div>
   </div>
 

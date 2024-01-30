@@ -27,8 +27,8 @@ const LoginPage = () => {
         window.location.href = '/app';
       }
     }).catch((err)=>{
-      console.log(err.response.data);
-      setError(err.response.data.msg);
+      console.log(err);
+      setError(err);
     })
   };
 
