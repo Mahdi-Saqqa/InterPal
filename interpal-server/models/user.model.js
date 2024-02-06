@@ -2,16 +2,25 @@ const mongoose = require("mongoose");
 
 
 const UserSchema = new mongoose.Schema({
-    Fname: {
+    firstName: {
       type: String,
-      required: [true, "Username is required"] 
+      required: [true, "First Name is required"] ,
+      validate: {
+        validator: val => /^[a-zA-Z]+$/.test(val),
+        message: "First Name must contain only letters"
+      }
+
     },
-    Lname: {
+    lastName: {
         type: String,
-        required: [true, "Username is required"] 
+        required: [true, "Last Name is required"],
+        validate: {
+          validator: val => /^[a-zA-Z]+$/.test(val),
+          message: "Last Name must contain only letters"
+        }
       },
 
-      Email: {
+      email: {
       type: String,
       required: [true, "Email is required"],
       unique: [true, "Email already exists"],
@@ -21,12 +30,16 @@ const UserSchema = new mongoose.Schema({
         message: "Please enter a valid email"
       }
     },
-    Password: {
+    password: {
       type: String,
       required: [true, "Password is required"],
-      minlength: [8, "Password must be 8 characters or longer"]
+      minlength: [8, "Password must be 8 characters or longer"],
+      validate: {
+        validator: val => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/.test(val),
+        message: "Password must contain at least 1 number, uppercase & lowercase letter"
+      }
     },
-    Bday: {
+    birthDay: {
         type: Date,
         required: [true, "Birthday is required"],
         validate: {
@@ -43,6 +56,10 @@ const UserSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, ref: "Country",
         required: [true, "Country is required"],
         ref:'Country'
+    },
+    nativeLanguage: {
+        type: mongoose.Schema.Types.ObjectId, ref: "Language",
+        ref:'Language'
     },
     languages: [{
         type: mongoose.Schema.Types.ObjectId, ref: "Language",
@@ -70,6 +87,14 @@ const UserSchema = new mongoose.Schema({
     chats: [{
         type: mongoose.Schema.Types.ObjectId, ref: "Chat",
         ref:'Chat'
+    }],
+    sentRequests: [{
+        type: mongoose.Schema.Types.ObjectId, ref: "User",
+        ref:'User'
+    }],
+    receivedRequests: [{
+        type: mongoose.Schema.Types.ObjectId, ref: "User",
+        ref:'User'
     }],
 
     resetPasswordToken: String,

@@ -2,10 +2,9 @@ import React from 'react'
 
 const LogOut = () => {
     React.useEffect(()=>{
-        localStorage.removeItem('token');    
+        localStorage.removeItem('userToken');    
         localStorage.removeItem('id');
         localStorage.removeItem('user');
-        console.log("redirecting");
         window.location.href = '/';
       }, [])
 

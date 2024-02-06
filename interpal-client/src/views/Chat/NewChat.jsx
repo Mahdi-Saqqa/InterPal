@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import axios from 'axios';
+import axiosInstance from '../../Config/axiosInstance ';
 import { useNavigate } from 'react-router-dom';
 const NewChat = (props) => {
     const navigate = useNavigate();
@@ -12,7 +12,7 @@ const NewChat = (props) => {
     const sendMessage = (e) => {
         e.preventDefault();
         console.log(message);
-        axios.post('http://localhost:8000/api/chat/new', {
+        axiosInstance.post('/chat/new', {
             sender: sender,
             receiver: receiver.id,
             message: message

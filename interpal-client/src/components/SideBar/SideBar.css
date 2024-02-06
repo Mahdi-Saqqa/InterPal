@@ -12,7 +12,9 @@ body {
   transition: background 0.4s ease; /* Added transition for background */
 
 }
+.notification{
 
+}
 .dark-mode-toggle {
   margin-top: 20px;
   background-color: #333;
@@ -88,7 +90,11 @@ body.dark .toggle-switch .switch {
   background-color: #333;
   color: #fff;
 }
+.dark-3{
+  background-color: #faf4f1 !important ;
+  color: black;
 
+}
 .sidebar-1.close.dark {
   width: calc(55px + 20px);
   

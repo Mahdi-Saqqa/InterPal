@@ -69,7 +69,7 @@ module.exports = {
             .catch(err => res.status(400).json(err));
     },
     getUserChat(req, res) {
-        User.findById(req.body.id).populate({
+        User.findById(req.user.id).populate({
           path: 'chats',
           populate: [
             { path: 'users' },      // Populate the 'users' field in each chat

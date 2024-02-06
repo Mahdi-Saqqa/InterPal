@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react'
-import axios from 'axios';
+import axiosInstance from '../../Config/axiosInstance ';
 import { Link } from 'react-router-dom';
 const ChatItem = (props) => {
     return (
@@ -29,9 +29,7 @@ const ChatBar = (props) => {
     const [chatList, setChatList] = useState([]);
     const socket = props.socket;
     const fetchChatList = () => {
-        axios.post('http://localhost:8000/api/chat/userChat',{
-            id: localStorage.getItem('id')
-        }).then((response)=>{
+        axiosInstance.get('/chat/userChat').then((response)=>{
             console.log(response.data);
             let sorted = response.data.sort((a,b)=>{
                 return new Date(b.messages[b.messages.length - 1].timestamp) - new Date(a.messages[a.messages.length - 1].timestamp)

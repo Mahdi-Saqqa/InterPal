@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useOutletContext, useParams } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../../Config/axiosInstance ";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import io from "socket.io-client";
@@ -44,8 +44,8 @@ const ChatContainer = (props) => {
   };
   useEffect(() => {
     socket.on("newChat", (data) => {
-      axios
-        .post("http://localhost:8000/api/chat/getChat", {
+      axiosInstance
+        .post("/chat/getChat", {
           id: chatId,
         })
         .then((response) => {
@@ -56,8 +56,8 @@ const ChatContainer = (props) => {
           console.log(err.response.data);
         });
     });
-    axios
-      .post("http://localhost:8000/api/chat/getChat", {
+    axiosInstance
+      .post("/chat/getChat", {
         id: chatId,
       })
       .then((response) => {

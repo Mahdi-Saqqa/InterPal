@@ -105,7 +105,7 @@ const Profile = () => {
                     {editables ? (
                       <>
                         <Link
-                          to="edit"
+                          to="../profile/edit"
                           className="btn btn-sm btn-primary px-3 py-2"
                         >
                           Edit
@@ -159,33 +159,37 @@ const Profile = () => {
                 <div className="col col-12 col-lg-6  col-md-12 col-sm-12 col-xl-4  col-xs-12  my-3">
                 <div className="custom-card">
                   <p className=" h2 mb-3 text-center">Languages</p>
-                    <Box sx={{ width: 1,justifyContent: 'space-between' }} display='flex' >
-                    arabic
-                    <Stack spacing={2} direction="row" sx={{ mb: 1, width:2/4 }} alignItems="center">
-                              <Slider defaultValue={30}  step={10} marks min={10} max={50}  />
-                              </Stack>
-                               3
-                            </Box>
-                            <Box sx={{ width: 1,justifyContent: 'space-between' }} display='flex' >
-                    arabic
-                    <Stack spacing={2} direction="row" sx={{ mb: 1, width:2/4 }} alignItems="center">
-                              <Slider defaultValue={30}  step={10} marks min={10} max={50}  />
-                              </Stack>
-                               3
-                            </Box>
-                            <Box sx={{ width: 1,justifyContent: 'space-between' }} display='flex' >
-                    arabic
-                    <Stack spacing={2} direction="row" sx={{ mb: 1, width:2/4 }} alignItems="center">
-                              <Slider defaultValue={30}  step={10} marks min={10} max={50}  />
-                              </Stack>
-                               3
-                            </Box>
+
                             <Box sx={{ width: 1,justifyContent: 'space-between' }} display='flex' >
                     arabic
                               <Stack spacing={2} direction="row" sx={{ mb: 1, width:2/4 }} alignItems="center">
-                              <Slider defaultValue={30}  step={10} marks min={10} max={50}   disabled/>
+                              <Slider defaultValue={1}  step={1} marks min={1} max={5}   disabled/>
                               </Stack>
-                               3
+                               Begginer
+                            </Box>
+                            
+                            <Box sx={{ width: 1,justifyContent: 'space-between' }} display='flex' >
+                    arabic
+                              <Stack spacing={2} direction="row" sx={{ mb: 1, width:2/4 }} alignItems="center">
+                              <Slider defaultValue={1}  step={1} marks min={1} max={5}   disabled/>
+                              </Stack>
+                               Begginer
+                            </Box>
+                            
+                            <Box sx={{ width: 1,justifyContent: 'space-between' }} display='flex' >
+                    arabic
+                              <Stack spacing={2} direction="row" sx={{ mb: 1, width:2/4 }} alignItems="center">
+                              <Slider defaultValue={1}  step={1} marks min={1} max={5}   disabled/>
+                              </Stack>
+                               Begginer
+                            </Box>
+                            
+                            <Box sx={{ width: 1,justifyContent: 'space-between' }} display='flex' >
+                    arabic
+                              <Stack spacing={2} direction="row" sx={{ mb: 1, width:2/4 }} alignItems="center">
+                              <Slider defaultValue={1}  step={1} marks min={1} max={5}   disabled/>
+                              </Stack>
+                               Begginer
                             </Box>
                 </div>
                 </div>

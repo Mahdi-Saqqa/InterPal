@@ -1,62 +1,76 @@
 import React, { useState, useEffect } from "react";
-import "./Register.css"; // Make sure to create a corresponding CSS file
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import emailjs from "emailjs-com";
-const RegisterPage = () => {
-  const [countries, setCountries] = useState([]);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [country, setCountry] = useState("");
-  const [birthday, setBirthday] = useState("");
 
-  const navigate = useNavigate();
+
+
+
+
+const RegisterPage = () => {
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    country: "",
+    birthDay: "",
+  });
+  const handleChange = (event) => {
+    setForm((form) => ({
+      ...form,
+      [event.target.name]: event.target.value,
+    }));
+  };
+
+  const [error, setError] = useState(null);
+
+  const [countries, setCountries] = useState([]);
+
+  async function sendEmail(user) {
+    console.log(user);
+
+    try {
+      await emailjs.send(
+        "service_4oj1jfh",
+        "template_fdccufu",
+        {
+          user_code: user.activationToken,
+          user_name: user.firstName + " " + user.lastName,
+          toEmail: user.email,
+        },
+        "pHlf1MseO9mIByVr6"
+      );
+      console.log("Email sent successfully!");
+    }
+    catch (error) {
+      console.log("Email failed to send!");
+      console.log(error);
+    }
+  }
+  async function register (){
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/user/register",
+        form
+      );
+      console.log(response.data);
+      localStorage.setItem("userToken", response.data.token);
+      await sendEmail(response.data);
+      window.location.href = "/app/profile/complete";
+    } catch (error) {
+      console.log(error);
+      console.log(error.response.status);
+      if (error.response.status && error.response.status === 401) {
+        setError(error.response.data);
+      }
+      console.log(error.response.data);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add your registration logic here
-    axios
-      .post("http://localhost:8000/api/register", {
-        Fname: firstName,
-        Lname: lastName,
-        Email: email,
-        Password: password,
-        Cpassword: confirmPassword,
-        country: country,
-        Bday: birthday,
-      })
-      .then((res) => {
-        let user = res.data;
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-        localStorage.setItem("id", res.data.id);
-        console.log(user);
-        return emailjs.send(
-          "service_4oj1jfh",
-          "template_fdccufu",
-          {
-            user_code: user.activationToken,
-            user_name: user.Fname + " " + user.Lname,
-            toEmail: user.Email,
-          },
-          "pHlf1MseO9mIByVr6"
-        );
-      })
-      .then((result) => {
-        console.log("email sent");
-        console.log(result.text);
-      })
-      .then((res) => {
-        console.log("redirecting");
-        navigate("/activate");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    console.log("User registered!");
+    register();   
   };
   useEffect(() => {
     axios
@@ -91,77 +105,78 @@ const RegisterPage = () => {
                   </button>
                 </div>
                 <p>or use your email for registration:</p>
-                <form class="signup" onSubmit={handleSubmit}>
+                <form class="signup needs-validation" onSubmit={handleSubmit} >
                   <div class="form-parent">
                     <div class="form-group custom-btn">
                       <input
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
+                        name="firstName"
+                        value={form.firstName}
+                        onChange={handleChange}
                         type="text"
-                        id="inputName"
-                        class="form-control custom-btn"
+                        className={`form-control custom-btn `+ (error && error.firstName ? "is-invalid" : "")}
                         placeholder="First Name"
                         required
                       />
-                      <button class="btn icon custom-btn">
+                      <button class="btn icon custom-btn" disabled>
                         <i class="material-icons">person_outline</i>
                       </button>
                     </div>
+
                     <div class="form-group custom-btn">
                       <input
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
+                        name="lastName"
+                        value={form.lastName}
+                        onChange={handleChange}
                         type="text"
-                        id="inputName"
-                        class="form-control custom-btn"
+                        className={`form-control custom-btn `+ (error && error.lastName ? "is-invalid" : "")}
                         placeholder="Last Name"
                         required
                       />
-                      <button class="btn custom-btn icon">
+                      <button class="btn custom-btn icon" disabled>
                         <i class="material-icons">person_outline</i>
                       </button>
                     </div>
                   </div>
                   <div class="form-group custom-btn">
                     <input
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      name="email"
+                      value={form.email}
+                      onChange={handleChange}
                       type="email"
-                      id="inputEmail"
-                      class="form-control custom-btn"
+                      className={`form-control custom-btn `+ (error && error.email ? "is-invalid" : "")}
                       placeholder="Email Address"
                       required
                     />
-                    <button class="btn custom-btn icon">
+                    <button class="btn custom-btn icon" disabled>
                       <i class="material-icons">mail_outline</i>
                     </button>
                   </div>
 
                   <div class="form-group custom-btn">
                     <input
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      name="password"
+                      value={form.password}
+                      onChange={handleChange}
                       type="password"
-                      id="inputPassword"
-                      class="form-control custom-btn"
+                      className={`form-control custom-btn `+ (error && error.password ? "is-invalid" : "")}
                       placeholder="Password"
                       required
                     />
-                    <button class="btn icon custom-btn">
+                    <button class="btn icon custom-btn" disabled>
                       <i class="material-icons">lock_outline</i>
                     </button>
                   </div>
                   <div class="form-group custom-btn">
                     <input
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      name="confirmPassword"
+                      value={form.confirmPassword}
+                      onChange={handleChange}
                       type="password"
-                      id="inputPassword"
-                      class="form-control custom-btn"
+                      className={`form-control custom-btn `+ (error && error.confirmPassword ? "is-invalid" : "")}
                       placeholder="Confirm Password"
                       required
                     />
-                    <button class="btn custom-btn icon">
+                    <button class="btn custom-btn icon" disabled>
                       <i class="material-icons">lock_outline</i>
                     </button>
                   </div>
@@ -169,7 +184,7 @@ const RegisterPage = () => {
                     <div class="custom-dropdown">
                       <select
                         className="form-control custom-btn"
-                        onChange={(e) => setCountry(e.target.value)}
+                        onChange={handleChange}
                         name="country"
                       >
                         <option value="">Select Country</option>
@@ -183,10 +198,11 @@ const RegisterPage = () => {
                   </div>
                   <div class="form-group custom-btn">
                     <input
-                      value={birthday}
-                      onChange={(e) => setBirthday(e.target.value)}
+                      value={form.birthDay}
+                      onChange={handleChange}
+                      name="birthDay"
                       type="date"
-                      class="form-control custom-btn"
+                      className={`form-control custom-btn `+ (error && error.birthDay ? "is-invalid" : "")}
                       required
                     />
                   </div>
@@ -202,6 +218,17 @@ const RegisterPage = () => {
                       Already a member? <a href="sign-in.html">Sign In</a>
                     </span>
                   </div>
+                  {error && (
+                      <div className="alert alert-danger mt-3" role="alert">
+                        
+                          <ul>
+                          {Object.values(error).map((error, index) => (
+                            <li key={index}>{error}</li>
+                          ))}
+                        </ul>
+                        
+                      </div>
+                    )}
                 </form>
               </div>
             </div>
@@ -218,7 +245,7 @@ const RegisterPage = () => {
                 To keep connected with your friends please login with your
                 personal info.
               </p>
-              <a href="sign-in.html" class="custom-btn2 custom-btn3">
+              <a href="./login" class="custom-btn2 custom-btn3">
                 Sign In
               </a>
             </div>
