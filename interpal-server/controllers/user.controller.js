@@ -123,13 +123,13 @@ class UserController {
       console.error(err);
       res.status(400).json(err.message);
     }
-
   }
 
   getLoggedInUser(req, res) {
     let id = req.user.id;
     User.findById(id)
       .populate("country")
+      .populate("languages.language")
       .select("-Password")
       .then((user) => {
         res.json({ user });
@@ -210,22 +210,15 @@ class UserController {
       .catch((err) => res.status(400).json(err));
   }
   completeUser(req, res) {
-    console.log(req.body);
-    console.log('req.file');
-    console.log(req.file);
-    User.findOne({ _id: req.body.userId })
+
+    User.findOne({ _id: req.user.id })
         .then(user => {
             user.updateOne({
-                profilePic: {
-                    name: req.file.filename,
-                    details: req.file
-                },
                 bio: req.body.bio,
+                languages: req.body.languages,
                 completed : true,
-                
-
             })
-                .then(() => res.json({ msg: "Success!" }))
+                .then(() => res.status(200).json({ msg: "Success!" }))
                 .catch(err => res.status(401).json(err));
         })
         .catch(err => res.status(400).json(err));
@@ -242,6 +235,7 @@ class UserController {
   getUser(req, res) {
     User.findOne({ _id: req.params.id })
       .populate("country")
+      .populate("languages.language")
       .select("-Password")
       .then((user) => {
         res.json({ user });

@@ -62,8 +62,14 @@ const UserSchema = new mongoose.Schema({
         ref:'Language'
     },
     languages: [{
-        type: mongoose.Schema.Types.ObjectId, ref: "Language",
-        ref:'Language'
+      language: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Language",
+      },
+      level: {
+        type: Number,  // You can use 'String', 'Number', or any other type suitable for proficiency levels
+      },
+
     }],
     activationToken: Number,
 

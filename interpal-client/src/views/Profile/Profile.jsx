@@ -9,6 +9,25 @@ import Slider from '@mui/material/Slider';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 
+function extractHourOffset(timeString) {
+  // Define a regular expression pattern to match the hour offset
+  const pattern = /([+-]\d{2}):(\d{2})/;
+  console.log(timeString);
+  // Use the pattern to find matches in the input string
+  const match = timeString.match(pattern);
+  console.log(match);
+  if (match) {
+    
+      // Extract the hour offset and minute offset from the match
+      const hourOffset = parseInt(match[1], 10);
+      console.log(hourOffset);
+      // Return the extracted hour offset
+      return hourOffset;
+  }
+
+  // Return null if no match is found
+  return 0;
+}
 function calculateAge(birthdate) {
   const currentDate = new Date();
   const birthDate = new Date(birthdate);
@@ -26,7 +45,8 @@ function calculateAge(birthdate) {
 
   return age;
 }
-const Profile = () => {
+const Profile = (props) => {
+  const loggedInUser = props.user;
   const [receiver, setReceiver] = React.useState({});
   const [newChat, setNewChat] = React.useState(false);
   const { id } = useParams();
@@ -34,13 +54,24 @@ const Profile = () => {
   const [user, setUser] = React.useState({});
   const [loaded, setLoaded] = React.useState(false);
   const [editables, setEditables] = React.useState(false);
+  const [time, setTime] = React.useState('');
+  function currentTime(o) {
+    console.log(o);
+    const date = new Date();
+    const hours = date.getUTCHours()+o;
+    const minutes = date.getMinutes();
+    const dif = o-extractHourOffset(loggedInUser.country.timezones);
+    return `${hours}:${minutes}(${dif > 0 ? "+" : ""}${dif})`;
+  }
+
+
   useEffect(() => {
     if (id === null || id === undefined) {
       setUserId(localStorage.getItem("id"));
     } else {
       setUserId(id);
     }
-    if (id === localStorage.getItem("id")) {
+    if (id === loggedInUser._id) {
       setEditables(true);
     }
     axios
@@ -48,6 +79,8 @@ const Profile = () => {
       .then((res) => {
         setUser(res.data.user);
         setLoaded(true);
+        console.log(res.data.user.country.timezones);
+        setTime(currentTime(extractHourOffset(res.data.user.country.timezones)));
       })
       .catch((err) => {
         console.log(err);
@@ -110,20 +143,24 @@ const Profile = () => {
                         >
                           Edit
                         </Link>
+                        <p className="h2 mt-3">{`${user.firstName} ${user.lastName}`}</p>
+                        <Link
+                          to="#"
+                          />
                       </>
                     ) : (
                       <>
                         <Link to="#" class="btn btn-sm btn-primary p-3">
                           Connect
                         </Link>
-                        <p className="h2 mt-3">{`${user.Fname} ${user.Lname}`}</p>
+                        <p className="h2 mt-3">{`${user.firstName} ${user.lastName}`}</p>
                         <Link
                           to="#"
                           class="btn btn-sm btn-primary float-right p-3"
                           onClick={() => {
                             setReceiver({
                               id: id,
-                              name: `${user.Fname} ${user.Lname}`,
+                              name: `${user.firstName} ${user.lastName}`,
                               avatar: require(`../../uploads/${user.profilePic.details.filename}`),
                             });
                             setNewChat(true);
@@ -159,38 +196,20 @@ const Profile = () => {
                 <div className="col col-12 col-lg-6  col-md-12 col-sm-12 col-xl-4  col-xs-12  my-3">
                 <div className="custom-card">
                   <p className=" h2 mb-3 text-center">Languages</p>
-
-                            <Box sx={{ width: 1,justifyContent: 'space-between' }} display='flex' >
-                    arabic
-                              <Stack spacing={2} direction="row" sx={{ mb: 1, width:2/4 }} alignItems="center">
-                              <Slider defaultValue={1}  step={1} marks min={1} max={5}   disabled/>
-                              </Stack>
-                               Begginer
-                            </Box>
-                            
-                            <Box sx={{ width: 1,justifyContent: 'space-between' }} display='flex' >
-                    arabic
-                              <Stack spacing={2} direction="row" sx={{ mb: 1, width:2/4 }} alignItems="center">
-                              <Slider defaultValue={1}  step={1} marks min={1} max={5}   disabled/>
-                              </Stack>
-                               Begginer
-                            </Box>
-                            
-                            <Box sx={{ width: 1,justifyContent: 'space-between' }} display='flex' >
-                    arabic
-                              <Stack spacing={2} direction="row" sx={{ mb: 1, width:2/4 }} alignItems="center">
-                              <Slider defaultValue={1}  step={1} marks min={1} max={5}   disabled/>
-                              </Stack>
-                               Begginer
-                            </Box>
-                            
-                            <Box sx={{ width: 1,justifyContent: 'space-between' }} display='flex' >
-                    arabic
-                              <Stack spacing={2} direction="row" sx={{ mb: 1, width:2/4 }} alignItems="center">
-                              <Slider defaultValue={1}  step={1} marks min={1} max={5}   disabled/>
-                              </Stack>
-                               Begginer
-                            </Box>
+                          {
+                            user.languages.map((language, index) => {
+                              return (
+                                <Box sx={{ width: 1,justifyContent: 'space-between' }} display='flex' >
+                                  {language.language.name}
+                                  <Stack spacing={2} direction="row" sx={{ mb: 1, width:2/4 }} alignItems="center">
+                                  <Slider defaultValue={language.level}  step={1} marks min={1} max={5}   disabled/>
+                                  </Stack>
+                                  {language.level === 1 ? "Begginer" : language.level === 2 ? "Elementary" : language.level === 3 ? "Intermediate" : language.level === 4 ? "Advanced" : "Fluent"}
+                                </Box>
+                              )
+                            }
+                            )
+                          }
                 </div>
                 </div>
                 <div className="col col-12 col-lg-6  col-md-12 col-sm-12 col-xl-4  col-xs-12  my-3">
@@ -209,14 +228,14 @@ const Profile = () => {
                         <span class="material-symbols-outlined">
                           perm_contact_calendar
                         </span>
-                        <span className="age">{calculateAge(user.Bday)}</span>
+                        <span className="age">{calculateAge(user.birthDay)}</span>
                       </span>
                     </p>
                     
                     <p>
                       <span className="d-flex  align-items-center">
                         <span class="material-symbols-outlined">schedule</span>
-                        <span className="age">08:15 am</span>
+                        <span className="age">{time}</span>
                       </span>
                     </p>
                     </div>

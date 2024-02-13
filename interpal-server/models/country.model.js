@@ -9,6 +9,7 @@ const CountrySchema = new mongoose.Schema({
     flag: { type: String },
     residents: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     code: { type: String },
+    timezones: { type: String },
     
 }, { timestamps: true });
 

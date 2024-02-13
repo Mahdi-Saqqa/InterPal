@@ -2,10 +2,53 @@ import React from "react";
 import { useOutletContext, useParams, Link, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Slider from '@mui/material/Slider';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 
-const EditProfile = () => {
-  const [country, setCountry] = useState("");
-  const [birthday, setBirthday] = useState("");
+const EditProfile = (props) => {
+  const {user} = props;
+  const [country, setCountry] = useState(user.country._id);
+  const b=new Date(user.birthDay).toISOString().split('T')[0];
+  const [birthday, setBirthday] = useState(b);
+  const [languages, setLanguages] = useState();
+  const [language, setLanguage] = useState("");
+  const [languageName, setLanguageName] = useState("");
+  const [levelName, setLevelName] = useState("");
+const [level, setLevel] = useState(3);
+const [email, setEmail] = useState(user.email);
+const [username, setUsername] = useState(user.username);
+const [firstName, setFirstName] = useState(user.firstName);
+const [lastName, setLastName] = useState(user.lastName);
+const [bio, setBio] = useState(user.bio);
+console.log(user.languages)
+const [selectedLanguages, setSelectedLanguages] = useState(user.languages.map(lang => {
+    return {
+        language: lang.language._id,
+        level: lang.level,
+        languageName: lang.language.name,
+        levelName: lang.levelName
+    }
+    }));
+const addLanguage = (e) => {
+  e.preventDefault();
+  console.log(language, level);
+  if (language === "" || level === "") return;
+  if (selectedLanguages.find((lang) => lang.language === language)) return;
+  setSelectedLanguages((prev) => [
+      ...prev,
+      {
+          language,
+          level,
+          languageName,
+          levelName
+      }
+  ]);
+  };
+  const deleteLanguage = (e, index) => {
+      e.preventDefault();
+      setSelectedLanguages((prev) => prev.filter((lang, i) => i !== index));
+  };
   const headerStyle = {
     minHeight: "600px",
     backgroundImage:
@@ -15,7 +58,7 @@ const EditProfile = () => {
   };
   const [darkMode] = useOutletContext();
   const [countries, setCountries] = useState([]);
-  const [languages, setLanguages] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     axios
@@ -32,11 +75,15 @@ const EditProfile = () => {
       let l = res.data;
       l.sort((a, b) => a.name.localeCompare(b.name));
       setLanguages(l);
+      setLoaded(true);
     });
+    
+
   }, []);
 
-  return (
-    <div div className="profile-container">
+  return (<>
+  {
+    loaded ? (<div div className="profile-container">
       <div
         className="header p-5 pb-8 pt-5 pt-lg-8 d-flex align-items-center"
         style={headerStyle}
@@ -80,7 +127,9 @@ const EditProfile = () => {
                         id="input-username"
                         className="form-control form-control-alternative"
                         placeholder="Username"
-                        value="lucky.jesse"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        
                       />
                     </div>
                   </div>
@@ -97,6 +146,8 @@ const EditProfile = () => {
                         id="input-email"
                         className="form-control form-control-alternative"
                         placeholder="jesse@example.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                       />
                     </div>
                   </div>
@@ -115,7 +166,8 @@ const EditProfile = () => {
                         id="input-first-name"
                         className="form-control form-control-alternative"
                         placeholder="First name"
-                        value="Lucky"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
                       />
                     </div>
                   </div>
@@ -132,7 +184,8 @@ const EditProfile = () => {
                         id="input-last-name"
                         className="form-control form-control-alternative"
                         placeholder="Last name"
-                        value="Jesse"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
                       />
                     </div>
                   </div>
@@ -150,6 +203,7 @@ const EditProfile = () => {
                         className="form-control form-control-alternative"
                         onChange={(e) => setCountry(e.target.value)}
                         name="country"
+                        value={country}
                       >
                         <option value="">Select Country</option>
                         {countries.map((country) => (
@@ -182,19 +236,16 @@ const EditProfile = () => {
               <hr className="my-4" />
               <h6 className="heading-small text-muted mb-4">Languages</h6>
               <div className="pl-lg-4">
-                <div className="row">
-                  <div className="col-lg-6">
-                    <div className="form-group focused">
-                      <label
-                        className="form-control-label"
-                        htmlFor="input-first-name"
-                      >
-                        Add Language
-                      </label>
-                      <select
-                        className="form-control form-control-alternative"
-                        onChange={(e) => setCountry(e.target.value)}
-                        name="country"
+              <div className="row">
+                <Box sx={{ width: 1,justifyContent: 'space-between',alignItems:'center' }} display='flex' className='my-2' >
+                        <div className="col-3"> 
+                        <select
+                        className="form-control form-control-alternative "
+                        onChange={(e) => {
+                            setLanguage(e.target.value)
+                            setLanguageName(e.target.selectedOptions[0].text)
+                        }}
+                        name="language"
                       >
                         <option value="">Select Language</option>
                         {languages.map((language) => (
@@ -202,45 +253,57 @@ const EditProfile = () => {
                             {language.name}{" "}
                           </option>
                         ))}
-                      </select>
-                    </div>
-                  </div>
+                      </select></div>
+                              <Stack spacing={2} direction="row" sx={{ mb: 1, width:2/4 }} alignItems="center" >
+                              <Slider defaultValue={3}  step={1} marks min={1} max={5}  onChange={(e, value) => {
+                                setLevel(value)
+                                switch (value) {
+                                    case 1:
+                                        setLevelName('Beginner')
+                                        break;
+                                    case 2:
+                                        setLevelName('Intermediate')
+                                        break;
+                                    case 3:
+                                        setLevelName('Advanced')
+                                        break;
+                                    case 4:
+                                        setLevelName('Fluent')
+                                        break;
+                                    case 5:
+                                        setLevelName('Native')
+                                        break;
+                                
+                                    default:
+                                        break;
+                                }
+                            }
 
-                  <div className="col-lg-5">
-                    <div className="form-group focused">
-                      <label
-                        className="form-control-label"
-                        htmlFor="input-last-name"
-                      >
-                        Level
-                      </label>
-                      <select
-                        className="form-control form-control-alternative"
-                        onChange={(e) => setCountry(e.target.value)}
-                        name="country"
-                      >
-                        <option value="">Select Level</option>
-                        <option value="1">Beginner</option>
-                        <option value="2">Intermediate</option>
-                        <option value="3">Advanced</option>
-                        <option value="4">Fluent</option>
-                        <option value="5">Native</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="col-lg-1">
-                    <div className="form-group focused">
-                      <label
-                        className="form-control-label"
-                        htmlFor="input-last-name"
-                      >
-                        &nbsp;
-                      </label>
-                      <button  className="form-control form-control-alternative btn btn-sm btn-primary ">
-                      add
+                              } />
+                              </Stack>
+                              <div className="col-3">{levelName}</div>
+
+                               <button  className="form-control form-control-alternative btn  btn-primary col-2 " onClick={(e)=>{
+                                addLanguage(e)
+                               }}>
+                      Add
                     </button>
-                    </div>
-                  </div>
+                            </Box>
+                    {
+                        selectedLanguages.map((lang, index) => (
+                            
+                            <Box sx={{ width: 1,justifyContent: 'space-between',alignItems:'center' }} display='flex' className='my-2' >
+                                <div className="col-3">{lang.languageName}</div>
+                              <Stack spacing={2} direction="row" sx={{ mb: 1, width:2/4 }} alignItems="center" >
+                              <Slider value={lang.level}  step={1} marks min={1} max={5}   disabled/>
+                              </Stack>
+                                <div className="col-3">{lang.levelName}</div>
+                               <button  className="form-control form-control-alternative btn  btn-danger col-2 " onClick={(e=>deleteLanguage(e,index))}>
+                      Delete
+                    </button>
+                            </Box>
+                        ))
+                    }
                 </div>
                 <div className="row"></div>
               </div>
@@ -253,6 +316,8 @@ const EditProfile = () => {
                     rows="4"
                     className="form-control form-control-alternative"
                     placeholder="A few words about you ..."
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
                   >
                     A beautiful Dashboard for Bootstrap 4. It is Free and Open
                     Source.
@@ -264,6 +329,11 @@ const EditProfile = () => {
         </div>
       </div>
     </div>
+    ):
+    (<div>Loading...</div>)
+  }
+  </>
+    
   );
 };
 

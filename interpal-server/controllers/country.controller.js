@@ -45,4 +45,18 @@ module.exports = {
             .then(data => res.json(data))
             .catch(err => res.json(err));
     },
+    create: (req, res) => {
+        console.log(req.body);
+        Country.create(req.body)
+            .then(data => {
+                console.log("create method executed");
+                res.json(data)
+            })
+            .catch(err => {
+                console.log("create method failed");
+                console.log(err);
+                res.json(err)
+            });
+    },
+
 }

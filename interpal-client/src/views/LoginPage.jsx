@@ -22,6 +22,7 @@ const LoginPage = () => {
         form
       );
       localStorage.setItem("userToken", response.data.token);
+      localStorage.setItem("userId", response.data.id);
       window.location.href = "/app";
     } catch (error) {
       setError(error.response.data.msg);

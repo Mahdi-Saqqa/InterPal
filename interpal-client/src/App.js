@@ -59,7 +59,7 @@ const App = () => {
               <Route path=":id" element={<ChatContainer />} />
             </Route>
             <Route path="profile/complete" element={renderSelectedPage(<CompleteProfile user={user} />)} />
-            <Route path="profile/edit" element={<EditProfile />} />
+            <Route path="profile/edit" element={<EditProfile user={user} />} />
             <Route path="profile/:id" element={<Profile user={user} setUser={setUser} />} />
           </Route>
           <Route path="*" element={<Main />} />

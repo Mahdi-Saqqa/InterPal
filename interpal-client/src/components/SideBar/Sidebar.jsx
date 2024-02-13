@@ -253,8 +253,8 @@ const Sidebar = (props) => {
             />
           </span>
           <div className="data_text">
-            <span className="name">{`${user.Fname} ${user.Lname}`}</span>
-            <span className="email">{`${user.Email}`}</span>
+            <span className="name">{`${user.firstName} ${user.lastName}`}</span>
+            <span className="email">{`${user.email}`}</span>
           </div>
         </div>
       </div>

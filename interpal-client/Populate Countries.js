@@ -25,7 +25,9 @@ const getCountries = () => {
                     name: country.name.common,
                     languages: country.languages?Object.values(country.languages):null,
                     flag: country.flags.png,
-                    code: country.flag
+                    code: country.flag,
+                    timezones: country.timezones[0],
+
                 }
                 axios.post('http://localhost:8000/api/country', obj)
                     .then(res => {
@@ -84,4 +86,4 @@ catch (error) {
 }
 }
 
-getLanguages();
+getCountries();

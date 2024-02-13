@@ -54,8 +54,8 @@ const ColumnScroll = (props) => {
 
   useEffect(() => {
 
-    for (let i = 0; i < 32; i++) {
-
+    for (let i = 0; i < data.length; i++) {
+      console.log(data[i]);
       if(data[i].profilePic == ""){
         data[i].profilePic = "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
         console.log(data[i]._id);
